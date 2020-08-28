@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:wikiappgedik/bookmodel.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,14 +54,17 @@ class _DetayState extends State<Detay> {
         // the App.build method, and use it to set our appbar title.
         title: Text("Wiki Gedik"),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: geldi ? ListView(
-          children: [Text(yazi.toString())],
+      body: SingleChildScrollView(
+        child: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: geldi ? Html(
+            data: yazi,
+            //Optional parameters:
 
 
-        ):Container(),
+          ):CircularProgressIndicator(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -74,7 +78,7 @@ class _DetayState extends State<Detay> {
   Future<void> postAt(id) async {
 
 
-    const baseUrl = "http://wiki.gedik.com.tr/api/books/23/export/plaintext";
+    const baseUrl = "http://wiki.gedik.com.tr/api/books/23/export/html";
 
     final http.Client httpClient = http.Client();
 
@@ -94,7 +98,6 @@ class _DetayState extends State<Detay> {
     setState(() {
 
       //yazi=radyoCevap.body;
-      debugPrint(radyoCevap.body.toString());
       yazi=radyoCevap.body.toString();
 
       geldi=true;
