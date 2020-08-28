@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage(this.qrtext,{Key key, this.title}) : super(key: key);
+  MyHomePage(this.qrtext, {Key key, this.title}) : super(key: key);
   final String qrtext;
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -57,10 +57,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   Books bilgi;
-  bool geldi =false;
-
+  bool geldi = false;
 
   int _counter = 0;
 
@@ -74,9 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+
   @override
   void initState() {
-   var arda =widget.qrtext;
+    var arda = widget.qrtext;
     postAt(arda);
     // TODO: implement initState
     super.initState();
@@ -84,8 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var qrText=widget.qrtext;
-
+    var qrText = widget.qrtext;
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -102,32 +100,31 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: geldi ? ListView.builder(
-          itemCount: bilgi.data.length,
-          itemBuilder: (context,int){
-            return ListTile(
-              title:Text( bilgi.data[int].name.toString()),
+        child: geldi
+            ? ListView.builder(
+                itemCount: bilgi.data.length,
+                itemBuilder: (context, int) {
+                  return ListTile(
+                    title: Text(bilgi.data[int].name.toString()),
+                    subtitle: Text(bilgi.data[int].description.toString()),
+                    onTap: () {
+                      var arda = widget.qrtext;
 
-              subtitle: Text( bilgi.data[int].description.toString()),
-              onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Detay(bilgi.data[int].id.toInt())),
-                );
-
-              },
-
-
-            );
-          },
-
-
-        ):Container(),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Detay(bilgi.data[int].id.toInt(), arda)),
+                      );
+                    },
+                  );
+                },
+              )
+            : Container(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          var arda =widget.qrtext;
-          postAt(arda);
+        onPressed: () {
+          postAt(widget.qrtext);
         },
         tooltip: 'Increment',
         child: Icon(Icons.refresh),
@@ -135,21 +132,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   Future<void> postAt(String arda) async {
-
     const baseUrl = "http://wiki.gedik.com.tr/api/books";
     final http.Client httpClient = http.Client();
-    var token ="bMGv48Tt2gTI2gfnGwft3QflmXoMxvnc:qqZucz2u5Q5ggGewPd5KLZ23W0eVuOoA";
-
-
-
-
+    var token =
+        "bMGv48Tt2gTI2gfnGwft3QflmXoMxvnc:qqZucz2u5Q5ggGewPd5KLZ23W0eVuOoA";
 
     final radyoUrl = baseUrl;
-    http.Response radyoCevap = await httpClient.get(radyoUrl,
-      headers: {"Authorization":"Token ${arda == null ? token :arda }"},
-
+    http.Response radyoCevap = await httpClient.get(
+      radyoUrl,
+      headers: {"Authorization": "Token ${arda == null ? token : arda}"},
     );
     if (radyoCevap.statusCode != 200) {
       debugPrint(radyoCevap.body.toString());
@@ -157,12 +149,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     final radyoCevapJSON = jsonDecode(radyoCevap.body);
 
-    bilgi= Books.fromJson(radyoCevapJSON);
+    bilgi = Books.fromJson(radyoCevapJSON);
     setState(() {
-      geldi=true;
+      geldi = true;
     });
-
-
-
   }
 }

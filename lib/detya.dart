@@ -7,20 +7,18 @@ import 'package:http/http.dart' as http;
 
 class Detay extends StatefulWidget {
   int id;
+  var arda;
 
-  Detay(this.id,Key key) : super(key: key);
-
+  Detay(this.id, this.arda);
 
   @override
   _DetayState createState() => _DetayState();
 }
 
 class _DetayState extends State<Detay> {
-
   Books bilgi;
-  bool geldi =false;
+  bool geldi = false;
   var yazi;
-
 
   int _counter = 0;
 
@@ -34,9 +32,10 @@ class _DetayState extends State<Detay> {
       _counter++;
     });
   }
+
   @override
   void initState() {
-    postAt(widget.id);
+    postAt(widget.id, widget.arda);
     // TODO: implement initState
     super.initState();
   }
@@ -59,12 +58,12 @@ class _DetayState extends State<Detay> {
         child: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: geldi ? Html(
-            data: yazi,
-            //Optional parameters:
-
-
-          ):CircularProgressIndicator(),
+          child: geldi
+              ? Html(
+                  data: yazi,
+                  //Optional parameters:
+                )
+              : CircularProgressIndicator(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -75,21 +74,18 @@ class _DetayState extends State<Detay> {
     );
   }
 
-
-  Future<void> postAt(id) async {
-
-
+  Future<void> postAt(id, arda) async {
     String baseUrl = "http://wiki.gedik.com.tr/api/books/$id/export/html";
 
     final http.Client httpClient = http.Client();
 
-
-
-
     final radyoUrl = baseUrl;
-    http.Response radyoCevap = await httpClient.get(radyoUrl,
-      headers: {"Authorization":"Token bMGv48Tt2gTI2gfnGwft3QflmXoMxvnc:qqZucz2u5Q5ggGewPd5KLZ23W0eVuOoA"},
+    var token =
+        "bMGv48Tt2gTI2gfnGwft3QflmXoMxvnc:qqZucz2u5Q5ggGewPd5KLZ23W0eVuOoA";
 
+    http.Response radyoCevap = await httpClient.get(
+      radyoUrl,
+      headers: {"Authorization": "Token ${arda == null ? token : arda}"},
     );
     if (radyoCevap.statusCode != 200) {
       debugPrint(radyoCevap.body.toString());
@@ -97,14 +93,10 @@ class _DetayState extends State<Detay> {
     }
 
     setState(() {
-
       //yazi=radyoCevap.body;
-      yazi=radyoCevap.body.toString();
+      yazi = radyoCevap.body.toString();
 
-      geldi=true;
+      geldi = true;
     });
-
-
-
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:wikiappgedik/main.dart';
 
-
 const flashOn = 'Flaş Aç';
 const flashOff = 'Flaş Kappa';
 const frontCamera = 'Ön Aç';
@@ -72,7 +71,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                             }
                           },
                           child:
-                          Text(flashState, style: TextStyle(fontSize: 20)),
+                              Text(flashState, style: TextStyle(fontSize: 20)),
                         ),
                       ),
                       Container(
@@ -93,7 +92,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                             }
                           },
                           child:
-                          Text(cameraState, style: TextStyle(fontSize: 20)),
+                              Text(cameraState, style: TextStyle(fontSize: 20)),
                         ),
                       )
                     ],
@@ -108,15 +107,15 @@ class _QRViewExampleState extends State<QRViewExample> {
                           onPressed: () {
                             Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => MyHomePage(null),
-                                )
-                            );
+                                MaterialPageRoute(
+                                  builder: (context) => MyHomePage(null),
+                                ));
                             controller?.pauseCamera();
                           },
-                          child: Text('Demoya Geç', style: TextStyle(fontSize: 20)),
+                          child: Text('Demoya Geç',
+                              style: TextStyle(fontSize: 20)),
                         ),
                       ),
-
                     ],
                   ),
                 ],
@@ -144,10 +143,10 @@ class _QRViewExampleState extends State<QRViewExample> {
         controller?.pauseCamera();
 
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage(qrText),
-        )
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyHomePage(qrText),
+            ));
       });
     });
   }

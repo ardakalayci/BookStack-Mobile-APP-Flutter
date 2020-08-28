@@ -18,14 +18,14 @@ class Books {
   int total;
 
   factory Books.fromJson(Map<String, dynamic> json) => Books(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    total: json["total"],
-  );
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        total: json["total"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "total": total,
-  };
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "total": total,
+      };
 }
 
 class Datum {
@@ -52,26 +52,26 @@ class Datum {
   int imageId;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    name: json["name"],
-    slug: json["slug"],
-    description: json["description"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    createdBy: json["created_by"],
-    updatedBy: json["updated_by"],
-    imageId: json["image_id"] == null ? null : json["image_id"],
-  );
+        id: json["id"],
+        name: json["name"],
+        slug: json["slug"],
+        description: json["description"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        createdBy: json["created_by"],
+        updatedBy: json["updated_by"],
+        imageId: json["image_id"] == null ? null : json["image_id"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "slug": slug,
-    "description": description,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
-    "created_by": createdBy,
-    "updated_by": updatedBy,
-    "image_id": imageId == null ? null : imageId,
-  };
+        "id": id,
+        "name": name,
+        "slug": slug,
+        "description": description,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "created_by": createdBy,
+        "updated_by": updatedBy,
+        "image_id": imageId == null ? null : imageId,
+      };
 }
