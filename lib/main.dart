@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wikiappgedik/bookmodel.dart';
 import 'package:wikiappgedik/detya.dart';
+import 'package:wikiappgedik/qrscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,13 +32,14 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: QRViewExample(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage(this.qrtext,{Key key, this.title}) : super(key: key);
+  final String qrtext;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -55,6 +57,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   Books bilgi;
   bool geldi =false;
 
@@ -73,13 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
-    postAt();
+   var arda =widget.qrtext;
+    postAt(arda);
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var qrText=widget.qrtext;
+
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -118,7 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ):Container(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          var arda =widget.qrtext;
+          postAt(arda);
+        },
         tooltip: 'Increment',
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -126,10 +136,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  Future<void> postAt() async {
+  Future<void> postAt(String arda) async {
 
     const baseUrl = "http://wiki.gedik.com.tr/api/books";
     final http.Client httpClient = http.Client();
+    var token ="bMGv48Tt2gTI2gfnGwft3QflmXoMxvnc:qqZucz2u5Q5ggGewPd5KLZ23W0eVuOoA";
 
 
 
@@ -137,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final radyoUrl = baseUrl;
     http.Response radyoCevap = await httpClient.get(radyoUrl,
-      headers: {"Authorization":"Token bMGv48Tt2gTI2gfnGwft3QflmXoMxvnc:qqZucz2u5Q5ggGewPd5KLZ23W0eVuOoA"},
+      headers: {"Authorization":"Token ${arda == null ? token :arda }"},
 
     );
     if (radyoCevap.statusCode != 200) {

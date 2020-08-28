@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class Detay extends StatefulWidget {
   int id;
 
-  Detay(this.id);
+  Detay(this.id,Key key) : super(key: key);
 
 
   @override
@@ -16,6 +16,7 @@ class Detay extends StatefulWidget {
 }
 
 class _DetayState extends State<Detay> {
+
   Books bilgi;
   bool geldi =false;
   var yazi;
@@ -78,7 +79,7 @@ class _DetayState extends State<Detay> {
   Future<void> postAt(id) async {
 
 
-    const baseUrl = "http://wiki.gedik.com.tr/api/books/23/export/html";
+    String baseUrl = "http://wiki.gedik.com.tr/api/books/$id/export/html";
 
     final http.Client httpClient = http.Client();
 
