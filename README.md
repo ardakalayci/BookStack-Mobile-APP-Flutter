@@ -1,6 +1,5 @@
-# wikiappgedik
-
-gedikwiki
+# wikiapp
+wiki
 
 ## Getting Started
 
